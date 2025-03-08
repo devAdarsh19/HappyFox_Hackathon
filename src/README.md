@@ -1,4 +1,4 @@
-```markdown
+
 # Weather Forecasting Web Application
 
 ## Project Description
@@ -89,7 +89,7 @@ A web application that fetches and displays real-time weather data.
            {% if data %}
            <div class="mt-5">
                <h2>Weather in {{ data.location.name }}</h2>
-               <p>Temperature: {{ data.current.temp_c }}°C</p>
+               <p>Temperature: {{ data.current.temp_c }}Â°C</p>
                <p>Description: {{ data.current.condition.text }}</p>
            </div>
            {% endif %}
