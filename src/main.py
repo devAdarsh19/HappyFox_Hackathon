@@ -2,13 +2,14 @@ import os
 import csv
 import shutil
 from dotenv import load_dotenv
-from fastapi import FastAPI, File, UploadFile, Form
+from fastapi import FastAPI, File, UploadFile, Form, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 from pdfminer.high_level import extract_text
 from mistralai import Mistral
 
-# load_dotenv("C:\\Users\\ADMIN\\Desktop\\api_key.env")
-# api_key_mistral = os.getenv("MISTRALAI_API_KEY")
+load_dotenv("C:\\Users\\ADMIN\\Desktop\\api_key.env")
+api_key_mistral = os.getenv("MISTRALAI_API_KEY")
 
 app = FastAPI()
 
@@ -22,7 +23,9 @@ app.add_middleware(
 )
 
 UPLOAD_DIR = "uploads"
+SAVE_DIR = "saved"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
+os.makedirs(SAVE_DIR, exist_ok=True)
 
 def extract_resume_text(pdf_path):
     return extract_text(pdf_path)
@@ -47,6 +50,24 @@ def analyze_resume(text):
 def recommend_projects(skills):
     model = "mistral-large-latest"
     prompt = f"Based on the skills provided below, recommend top 5 projects that the user can work on and successfully complete\nGenerate your response in this format: Project Name, Project Description, Tools and Skills Utilized, and Steps \n{skills}"
+    
+    client = Mistral(api_key=api_key_mistral)
+    
+    completion = client.chat.complete(
+        model=model,
+        messages = [
+            {
+                "role":"user", 
+                "content":prompt
+            }
+        ]
+    )
+    
+    return completion.choices[0].message.content
+
+def create_documentation(project_desc):
+    model = "mistral-large-latest"
+    prompt = f"Based on the project description given below, create a well-structured markdown documentation suitable for the project's Github repository. The documentation should display the tools used, a detailed project description, and setup and execution steps \nPlease make sure you add no unnecessary sentences in your response \n{project_desc}"
     
     client = Mistral(api_key=api_key_mistral)
     
@@ -100,5 +121,29 @@ async def upload_resume(file: UploadFile = File(...)):
 async def generate_projects(skills: str = Form(...)):
     projects = recommend_projects(skills)
     return {"projects": projects}
+   
+@app.post("/generate-documentation/") 
+async def generate_project_documentation(project_desc: str = Form(...)):
+    filename = os.path.join(SAVE_DIR, "README.md")
     
+    try:
+        project_documentation = create_documentation(project_desc)
+        
+        with open(filename, "w") as f:
+            f.write(project_documentation)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error generating documentation : {str(e)}")
+    
+    return {"message": "Documentation generated!", "download_url": "download-doc"}
+
+
+@app.get("/download-doc/")
+async def download_documentation():
+    filepath = os.path.join(SAVE_DIR, "README.md")
+    
+    if not os.path.exists(filepath):
+        raise HTTPException(status_code=404, detail="Documentation not found")
+    
+    return FileResponse(filepath, media_type="text/markdown", filename="README.md")
+
 
