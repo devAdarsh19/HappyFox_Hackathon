@@ -1,91 +1,112 @@
-# Smart Home Automation System
-
-## Tools Used
-- **Programming Language**: Python
-- **Framework**: Flask
-- **Database**: SQLite
-- **Frontend**: HTML, CSS, JavaScript
-- **Hardware**: Raspberry Pi, Arduino, Various Sensors and Actuators
-- **Communication**: MQTT Protocol
+```markdown
+# Autonomous Robot Navigation
 
 ## Project Description
 
-The Smart Home Automation System is designed to automate and control various aspects of a home environment. The system includes features such as temperature control, lighting management, security monitoring, and more. It utilizes a Raspberry Pi as the central controller, interfacing with various sensors and actuators via an Arduino. Communication between devices is handled using the MQTT protocol.
+The Autonomous Robot Navigation project aims to develop a robust system for navigating robots autonomously in various environments. The system utilizes advanced algorithms and sensors to enable the robot to move safely and efficiently without human intervention.
 
-The project consists of the following components:
-- **Backend**: A Flask-based web server that handles user requests and interacts with the database.
-- **Database**: SQLite is used to store user preferences, device states, and sensor data.
-- **Frontend**: A web-based interface built with HTML, CSS, and JavaScript for user interaction.
-- **Hardware**: Raspberry Pi and Arduino for controlling and monitoring devices.
+## Tools and Libraries Used
+
+- **Programming Language:** Python 3.8
+- **Frameworks and Libraries:**
+  - ROS (Robot Operating System) Noetic
+  - OpenCV 4.5.2
+  - TensorFlow 2.4.1
+  - Gazebo 11
+  - MoveIt!
+  - Navigation Stack
+- **Hardware:**
+  - Robot platform (e.g., TurtleBot3)
+  - LIDAR sensor
+  - Camera
 
 ## Setup and Execution Steps
 
 ### Prerequisites
-- Python 3.x
-- Node.js
-- MQTT Broker (e.g., Mosquitto)
-- Raspberry Pi and Arduino with necessary sensors and actuators
+
+- Ubuntu 20.04
+- ROS Noetic installed
+- Gazebo 11 installed
 
 ### Installation
 
-1. **Clone the Repository**
-   ```sh
-   git clone https://github.com/yourusername/smart-home-automation.git
-   cd smart-home-automation
+1. **Clone the Repository:**
+   ```bash
+   git clone https://github.com/yourusername/autonomous_robot_navigation.git
+   cd autonomous_robot_navigation
    ```
 
-2. **Set Up Python Environment**
-   ```sh
-   python3 -m venv venv
-   source venv/bin/activate
-   pip install -r requirements.txt
+2. **Create a Catkin Workspace:**
+   ```bash
+   mkdir -p ~/catkin_ws/src
+   cd ~/catkin_ws/src
+   catkin_init_workspace
    ```
 
-3. **Set Up Node.js Environment**
-   ```sh
-   npm install
+3. **Add the Project to the Workspace:**
+   ```bash
+   cd ~/catkin_ws/src
+   git clone https://github.com/yourusername/autonomous_robot_navigation.git
    ```
 
-4. **Configure MQTT Broker**
-   - Install and configure Mosquitto on your Raspberry Pi.
-   - Ensure the MQTT broker is running and accessible.
+4. **Build the Workspace:**
+   ```bash
+   cd ~/catkin_ws
+   catkin_make
+   ```
 
-5. **Configure Hardware**
-   - Connect the Arduino to the Raspberry Pi.
-   - Wire the sensors and actuators to the Arduino.
+5. **Source the Workspace:**
+   ```bash
+   source devel/setup.bash
+   ```
 
 ### Execution
 
-1. **Start the MQTT Broker**
-   ```sh
-   sudo systemctl start mosquitto
+1. **Launch Gazebo with the Robot Model:**
+   ```bash
+   roslaunch turtlebot3_gazebo turtlebot3_world.launch
    ```
 
-2. **Run the Flask Server**
-   ```sh
-   flask run
+2. **Launch the Navigation Stack:**
+   ```bash
+   roslaunch turtlebot3_navigation turtlebot3_navigation.launch
    ```
 
-3. **Run the Frontend**
-   ```sh
-   npm start
+3. **Run the Autonomous Navigation Node:**
+   ```bash
+   rosrun autonomous_robot_navigation navigation_node.py
    ```
 
-4. **Access the Web Interface**
-   - Open a web browser and navigate to `http://localhost:5000` to access the smart home automation interface.
+4. **Visualize the Navigation in RViz:**
+   ```bash
+   rviz
+   ```
+
+### Additional Information
+
+- **Configuration Files:**
+  - `config/navigation.yaml`: Configuration for the navigation stack.
+  - `launch/navigation.launch`: Launch file for the navigation stack.
+
+- **Dependencies:**
+  - Ensure all dependencies are installed using:
+    ```bash
+    rosdep install --from-paths src --ignore-src -r -y
+    ```
+
+- **Troubleshooting:**
+  - If the robot model does not appear in Gazebo, ensure the Gazebo plugin paths are correctly set.
+  - If the navigation stack fails to launch, check the ROS topics and parameters for any missing configurations.
 
 ## Contributing
 
-1. Fork the repository.
-2. Create a new branch for your feature or bug fix.
-3. Commit your changes.
-4. Push your branch.
-5. Open a Pull Request.
+- Fork the repository
+- Create a new branch (`git checkout -b feature-branch`)
+- Commit your changes (`git commit -am 'Add new feature'`)
+- Push to the branch (`git push origin feature-branch`)
+- Create a new Pull Request
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-## Contact
-
-For any questions or issues, please open an issue or contact the project maintainer.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+```

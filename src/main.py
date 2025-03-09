@@ -32,7 +32,7 @@ def extract_resume_text(pdf_path):
 
 def analyze_resume(text):
     model = "mistral-large-latest"
-    prompt = f"Analyze this text from a resume and return the following information on new lines \nName, Email ID, Contact Number, LinkedIn and GitHub page links, and extract all skills from projects and those under the skills section and pack them all under the skills field, seperated by commas \nGive me these details in the form field_name : values, each on a new line\nPlease make sure the field names are exactly like this: Name, Email ID, Contact Number, LinkedIn, GitHub, Skills\n{text}"
+    prompt = f"Analyze this text from a resume and return the following information on new lines \nName, Email ID, Contact Number, LinkedIn and GitHub page links, and extract all skills from projects and those under the skills section and pack them all under the skills field, seperated by commas \nGive me these details in the form field_name : values, each on a new line\nPlease make sure the field names are exactly like this: Name, Email ID, Contact Number, LinkedIn, GitHub, Skills\nPlease don't include any other unnecessary sentence in your response \n{text}"
     
     client = Mistral(api_key=api_key_mistral)
     
@@ -49,7 +49,7 @@ def analyze_resume(text):
 
 def recommend_projects(skills):
     model = "mistral-large-latest"
-    prompt = f"Based on the skills provided below, recommend top 5 projects that the user can work on and successfully complete\nGenerate your response in this format: Project Name, Project Description, Tools and Skills Utilized, and Steps \n{skills}"
+    prompt = f"Based on the skills provided below, recommend top 5 projects that the user can work on and successfully complete\nGenerate your response in this format: Project Name, Project Description, Tools and Skills Utilized, and Steps. \nPlease don't add any other unnecessary sentences in your response \n{skills}"
     
     client = Mistral(api_key=api_key_mistral)
     
@@ -67,7 +67,7 @@ def recommend_projects(skills):
 
 def create_documentation(project_desc):
     model = "mistral-large-latest"
-    prompt = f"Based on the project description given below, create a well-structured markdown documentation suitable for the project's Github repository. The documentation should display the tools used, a detailed project description, and setup and execution steps \nPlease make sure you add no unnecessary sentences in your response \n{project_desc}"
+    prompt = f"Based on the project description given below, create a well-structured markdown documentation suitable for the project's Github repository. The documentation should display a detailed project description, the tools and libraries used, and their versions, and setup and execution steps. \nOnly add code snippets within 3 backticks. Project name can have 3 # while other headings may have 2 #. Use bullet points where necessary \nPlease make sure you add no unnecessary sentences in your response \n{project_desc}"
     
     client = Mistral(api_key=api_key_mistral)
     
@@ -120,6 +120,7 @@ async def upload_resume(file: UploadFile = File(...)):
 @app.post("/recommend-projects/")
 async def generate_projects(skills: str = Form(...)):
     projects = recommend_projects(skills)
+    projects = projects.replace('**', '').replace('### ', '')
     return {"projects": projects}
    
 @app.post("/generate-documentation/") 
