@@ -120,7 +120,7 @@ async def upload_resume(file: UploadFile = File(...)):
 @app.post("/recommend-projects/")
 async def generate_projects(skills: str = Form(...)):
     projects = recommend_projects(skills)
-    projects = projects.replace('**', '').replace('### ', '')
+    projects = projects.replace('**', '').replace('### ', '').split("\n\n")
     return {"projects": projects}
    
 @app.post("/generate-documentation/") 

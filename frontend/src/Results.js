@@ -23,22 +23,38 @@ const Results = ({ userData }) => {
 
   return (
     <div>
-      <h2>Extracted Resume Details</h2>
-      {userData && (
-        <ul>
-          {Object.entries(userData).map(([key, value]) => (
-            <li key={key}>
-              <strong>{key}:</strong> {value}
-            </li>
-          ))}
-        </ul>
-      )}
+      <h2 id="headings">Personal Information</h2>
+      <div>
+        {userData && (
+          <ul>
+            {Object.entries(userData).map(([key, value]) => (
+              <li key={key}>
+                {/* <strong>{key}:</strong> {value} */}
+                <strong>{key}:</strong>{" "}
+                {key === "LinkedIn" || key === "GitHub" ? (
+                  <a href={value.startsWith("http") ? value : `https://${value}`} target="_blank" rel="noopener noreferrer">
+                    {value}
+                  </a>
+                ) : (
+                  value
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
 
-      <button onClick={generateProjects} disabled={loading}>{loading ? "Generating ideas..." : "Generate Project Ideas"}</button>
+      <button onClick={generateProjects} disabled={loading}>
+        {loading ? "Generating ideas..." : "Generate Project Ideas"}
+      </button>
       {projects && (
         <div class="generated-ideas">
-          <h2>Recommended Projects</h2>
-          <pre>{projects}</pre>
+          <h2 id="headings">Recommended Projects</h2>
+          {projects.map((project) => (
+            <div class="proj-container">
+              <pre id="projects">{ project }</pre>
+            </div>
+          ))}
         </div>
       )}
     </div>

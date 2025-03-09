@@ -97,3 +97,22 @@ li {
     padding: 20px;
     /* height: 80vh; */
 }
+
+#headings {
+    color: orange;
+}
+
+.proj-container {
+    background-color: rgb(59, 59, 59);
+    padding: 10px;
+    margin: 10px 0px;
+    border-radius: 15px;
+}
+
+#projects {
+    padding: 10px 0px;
+    white-space:pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
+}

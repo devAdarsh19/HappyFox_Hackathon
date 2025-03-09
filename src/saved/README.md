@@ -1,112 +1,84 @@
-```markdown
-# Autonomous Robot Navigation
+# Interactive Game Development
 
 ## Project Description
 
-The Autonomous Robot Navigation project aims to develop a robust system for navigating robots autonomously in various environments. The system utilizes advanced algorithms and sensors to enable the robot to move safely and efficiently without human intervention.
+This project focuses on the development of an interactive game using modern tools and libraries. The game features real-time interactions, engaging graphics, and a responsive user interface. The goal is to provide an immersive gaming experience while showcasing the capabilities of the technologies used.
 
-## Tools and Libraries Used
+## Tools and Libraries
 
-- **Programming Language:** Python 3.8
-- **Frameworks and Libraries:**
-  - ROS (Robot Operating System) Noetic
-  - OpenCV 4.5.2
-  - TensorFlow 2.4.1
-  - Gazebo 11
-  - MoveIt!
-  - Navigation Stack
-- **Hardware:**
-  - Robot platform (e.g., TurtleBot3)
-  - LIDAR sensor
-  - Camera
+- **Programming Language**: Python 3.9
+- **Game Engine**: Pygame 2.1.2
+- **Graphics Library**: Pillow 9.1.0
+- **Physics Engine**: Pymunk 6.2.1
+- **Version Control**: Git 2.35.1
 
-## Setup and Execution Steps
+## Setup
 
 ### Prerequisites
 
-- Ubuntu 20.04
-- ROS Noetic installed
-- Gazebo 11 installed
+- Ensure Python 3.9 is installed on your system.
+- Install Git for version control.
 
-### Installation
+### Installation Steps
 
-1. **Clone the Repository:**
-   ```bash
-   git clone https://github.com/yourusername/autonomous_robot_navigation.git
-   cd autonomous_robot_navigation
+1. **Clone the Repository**
+
+   ```
+   git clone https://github.com/yourusername/interactive-game-development.git
+   cd interactive-game-development
    ```
 
-2. **Create a Catkin Workspace:**
-   ```bash
-   mkdir -p ~/catkin_ws/src
-   cd ~/catkin_ws/src
-   catkin_init_workspace
+2. **Create a Virtual Environment**
+
+   ```
+   python -m venv venv
    ```
 
-3. **Add the Project to the Workspace:**
-   ```bash
-   cd ~/catkin_ws/src
-   git clone https://github.com/yourusername/autonomous_robot_navigation.git
+3. **Activate the Virtual Environment**
+
+   - **Windows**:
+
+     ```
+     .\venv\Scripts\activate
+     ```
+
+   - **MacOS/Linux**:
+
+     ```
+     source venv/bin/activate
+     ```
+
+4. **Install Dependencies**
+
+   ```
+   pip install -r requirements.txt
    ```
 
-4. **Build the Workspace:**
-   ```bash
-   cd ~/catkin_ws
-   catkin_make
+## Execution
+
+1. **Run the Game**
+
+   ```
+   python main.py
    ```
 
-5. **Source the Workspace:**
-   ```bash
-   source devel/setup.bash
-   ```
+2. **Controls**
 
-### Execution
-
-1. **Launch Gazebo with the Robot Model:**
-   ```bash
-   roslaunch turtlebot3_gazebo turtlebot3_world.launch
-   ```
-
-2. **Launch the Navigation Stack:**
-   ```bash
-   roslaunch turtlebot3_navigation turtlebot3_navigation.launch
-   ```
-
-3. **Run the Autonomous Navigation Node:**
-   ```bash
-   rosrun autonomous_robot_navigation navigation_node.py
-   ```
-
-4. **Visualize the Navigation in RViz:**
-   ```bash
-   rviz
-   ```
-
-### Additional Information
-
-- **Configuration Files:**
-  - `config/navigation.yaml`: Configuration for the navigation stack.
-  - `launch/navigation.launch`: Launch file for the navigation stack.
-
-- **Dependencies:**
-  - Ensure all dependencies are installed using:
-    ```bash
-    rosdep install --from-paths src --ignore-src -r -y
-    ```
-
-- **Troubleshooting:**
-  - If the robot model does not appear in Gazebo, ensure the Gazebo plugin paths are correctly set.
-  - If the navigation stack fails to launch, check the ROS topics and parameters for any missing configurations.
+   - Use **Arrow Keys** to move the character.
+   - Press **Spacebar** to jump.
+   - Press **Esc** to pause the game.
 
 ## Contributing
 
-- Fork the repository
-- Create a new branch (`git checkout -b feature-branch`)
-- Commit your changes (`git commit -am 'Add new feature'`)
-- Push to the branch (`git push origin feature-branch`)
-- Create a new Pull Request
+- Fork the repository.
+- Create a new branch for your feature.
+- Make your changes and commit them.
+- Push your branch and create a pull request.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-```
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Contact
+
+For any questions or issues, please open an issue on the repository or contact the maintainers directly.
